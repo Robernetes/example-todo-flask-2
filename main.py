@@ -35,7 +35,7 @@ def index():
     session['user_ip'] = user_ip
     return response
 
-@app.route('/hello', methods=['GET','POST'])
+@app.route('/hello', methods=['GET'])
 def hello():
     user_ip = session.get('user_ip')
     login_form = LoginForm()

@@ -4,4 +4,4 @@ flask-wtf
 flask-testing
 pylint
 jedi
-
+blinker
