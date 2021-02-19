@@ -8,6 +8,7 @@ import unittest
 from app import create_app
 from app.forms import LoginForm
 from dotenv import load_dotenv
+from app.firestore_service import get_users
 load_dotenv()
 
 app = create_app()
@@ -44,5 +45,11 @@ def hello():
         'todos': todos,
         'username': username
     }
+#QUEDÉ AQUI EN EL VIDEO 08 EN EL MINUTO 4:20 -- PROBLEMA CON LO QUE  REGRESA EL METODO GET_USERS()
+    users = get_users()
+
+    for user in users:
+        print(user['id'])
+        print(user.to_dict()['password'])
 
     return render_template('hello.html', **context)

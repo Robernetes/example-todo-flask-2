@@ -5,3 +5,4 @@ flask-testing
 pylint
 jedi
 blinker
+firebase-admin
