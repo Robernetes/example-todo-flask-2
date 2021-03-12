@@ -8,13 +8,10 @@ import unittest
 from app import create_app
 from app.forms import LoginForm
 from dotenv import load_dotenv
-from app.firestore_service import get_users
+from app.firestore_service import get_users, get_todos
 load_dotenv()
 
 app = create_app()
-
-todos = ['Shopping', 'Gaming', 'Homework']
-
 
 
 @app.cli.command()
@@ -42,14 +39,14 @@ def hello():
     username = session.get('username')
     context = {
         'user_ip': user_ip,
-        'todos': todos,
+        'todos': get_todos(user_id=username), 
         'username': username
     }
-#QUEDÉ AQUI EN EL VIDEO 08 EN EL MINUTO 4:20 -- PROBLEMA CON LO QUE  REGRESA EL METODO GET_USERS()
+#QUEDÉ AQUI EN EL VIDEO 08 EN EL MINUTO 11:53 -- No muestra los todos en pag hello
     users = get_users()
 
     for user in users:
-        print(user['id'])
+        print(user.id)
         print(user.to_dict()['password'])
 
     return render_template('hello.html', **context)
