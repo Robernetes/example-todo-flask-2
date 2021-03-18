@@ -6,3 +6,4 @@ pylint
 jedi
 blinker
 firebase-admin
+flask-login
