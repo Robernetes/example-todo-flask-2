@@ -5,7 +5,7 @@ from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 import unittest
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import create_app
 from app.forms import LoginForm
 from dotenv import load_dotenv
@@ -38,7 +38,7 @@ def index():
 @login_required
 def hello():
     user_ip = session.get('user_ip')
-    username = session.get('username')
+    username = current_user.id
     context = {
         'user_ip': user_ip,
         'todos': get_todos(user_id=username), 
