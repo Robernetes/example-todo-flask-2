@@ -75,4 +75,3 @@ def logout():
     logout_user()
     flash(f'Regresa pronto')
     return redirect(url_for('auth.login'))
-#MINUTO 8 - VIDEO 10
