@@ -7,9 +7,9 @@ from flask_bootstrap import Bootstrap
 import unittest
 from flask_login import login_required, current_user
 from app import create_app
-from app.forms import TodoForm
+from app.forms import TodoForm, DeleteTodoForm, UpdateTodoForm
 from dotenv import load_dotenv
-from app.firestore_service import get_users, get_todos, put_todo
+from app.firestore_service import get_users, get_todos, put_todo, delete_todo, update_todo
 load_dotenv()
 
 app = create_app()
@@ -27,6 +27,13 @@ def not_found(error):
     return render_template('404.html', error=error)
 
 
+
+@app.errorhandler(500)
+def server_error(error):
+    return render_template('500.html', error=error)
+
+
+
 @app.route('/')
 def index():
     user_ip = request.remote_addr
@@ -40,11 +47,15 @@ def hello():
     user_ip = session.get('user_ip')
     username = current_user.id
     todo_form = TodoForm()
+    delete_form = DeleteTodoForm()
+    update_form = UpdateTodoForm()
     context = {
         'user_ip': user_ip,
         'todos': get_todos(user_id=username), 
         'username': username,
         'todo_form': todo_form,
+        'delete_form': delete_form,
+        'update_form': update_form,
     }
 
     if todo_form.validate_on_submit():
@@ -55,3 +66,19 @@ def hello():
     
 
     return render_template('hello.html', **context)
+
+
+@app.route('/todos/delete/<todo_id>', methods=['POST'])
+def delete(todo_id):
+    user_id = current_user.id
+    delete_todo(user_id=user_id, todo_id=todo_id)
+    print(type(todo_id))
+    return redirect(url_for('hello'))
+
+@app.route('/todos/update/<todo_id>/<int:done>', methods=['POST'])
+def update(todo_id, done):
+    user_id = current_user.id
+    update_todo(user_id=user_id, todo_id=todo_id, done=done)
+    return redirect(url_for('hello'))
+
+
