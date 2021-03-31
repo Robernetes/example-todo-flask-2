@@ -21,10 +21,10 @@
         {{ wtf.quick_form(todo_form) }}
     </div>
 
-    <ul>
+    <ul class="List-group">
         {% for todo in todos %}
-            {{ macros.render_todo(todo) }}
+            {{ macros.render_todo(todo, delete_form, update_form) }}
         {% endfor %}
-        
     </ul>
+
 {% endblock %}
